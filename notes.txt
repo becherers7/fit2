@@ -1,0 +1,174 @@
+Application state management:
+
+
+
+We have a register component and a login component.
+Create a register and login form.
+Login as default, Link to register.
+On register route to login.
+On login successful submit, route to App.
+
+Upon user creation set a namespace to that username.
+
+We have App.js,
+
+We have a list of rooms component, a profile component,
+a search for users component, a create workout component,
+and a workout history component.
+
+We have a list of rooms component, a room component, and a create room form component.
+If no rooms available, display the create room form.
+If there are rooms, choose a room on the list of rooms component.
+
+Once you choose a room display room component.
+On selecting a room, make a get request for chat messages.
+Create an input that creates a new message.
+
+Profile component has a Graph component and workout history component.
+Workout history component should be like a book with left and right arrows.
+Graphs that display weight increase over time.
+When you hover over point on the graph, it will show you the reps.
+If you click on the point it will direct you to the workout.
+
+Create workout component has a grid component,
+a random workout generator component, and a share component.
+
+Main functionality isn't the messaging itself. It's sharing content.
+
+Content in this space are workouts
+
+Create a workout.
+Needs a name, label, and list of exercises
+with reps, sets, weight, duration.
+
+Label can be cardio, upperbody, lowerbody,
+chest, arms, legs, back, abs, shoulders
+
+On submit of workout, choose a label from a grid of options.
+
+Gets added to workbook.
+Have a workbook for each label. Have a workbook chronologically
+containing all workouts.
+
+Share workouts between friends.
+Choose to make workouts unshareable.
+
+
+Get notifications for when friends workout using geolocation.
+Purchase workout plans. purchase individual workouts.
+Purchased workouts can be shared with friends, but the friend
+has to purchase it as well.
+
+
+We've created channels array that get added to the sidebar.
+
+Now we want to create a messageBoard component to the right of the PersistentDrawerLeft component.
+Message board will display messages as a scrollable list with fixed TextField at the bottom. Every other message should have subtle
+highlighting differences.
+
+High level App functionality:
+Messaging system
+Friending
+
+Workout tracking
+--front end done.
+Workout creation
+--front end almost done.
+Workout sharing
+--you can share via messaging.
+--the coolest feature will be getting notification via text your friends are working out based on day of workout
+--you'll also get a link to their workout in the app.
+--clicking on the link will take you to their workout to comment on it. or like it.
+
+
+For creating a chat room
+
+Socket.IO allows you to “namespace” your sockets, which essentially means assigning different endpoints or paths.
+Each namespace can be custom made, and can have many rooms.
+So if I'm a user, and I create a channel or a direct message, I can make that the namespace + the author's username.
+But, we'll probably want to utilize the below instead.
+Each Socket in Socket.IO is identified by a random, unguessable, unique identifier Socket#id.
+For your convenience, each socket automatically joins a room identified by this id.
+
+Now each channel is essentially comprised of a group of users, so groups would be an array. We also need permissions for each user in that group.
+
+I have a create workout form that uses sockets.
+I have a workbook that allows you to view all your workouts.
+I have a message component that renders text to a screen.
+I need to make the comments styled better, and I need to do routing next with React.Router.
+Follow tutorial for comment styling tonight, if you're feeling good start on React.Router.
+
+Before backend,
+Have functionality and examples hard coded in the app.
+
+Refactor current front end code so it's efficient and reusable.
+Refactor how data is passed currently through app.
+Navigation routing.
+Have commenting working. Have channels and direct message creations working.
+Have different users displayed on the front end working.
+Have workout creation and management working.
+
+Then start on authentication.
+
+Then create GETs and POSTs for current functionality.
+
+Then go back to sockets for room and name space creation on messaging side, and the commentings as well.
+
+Create a Feed that shows who made what workouts with sockets.
+
+Create graph that displays weight increases over time per workout.
+
+Create user search capability to find friends.
+
+Create random workouts.
+
+Create liking button for workouts in addition to comments.
+
+Create a clone workout option for user of a workout.
+
+Create a backend check to see if that workout already exists by an accredited author....
+
+Todo's this week:
+restyle the create workout page to use material-ui and work with sockets.-check
+restyle the workbook page so that it displays each workout as a table and uses material-ui.
+Set up the react router navigation between creating workout, and viewing workouts.-check.
+Refactor code by the end of the weekend.
+Get a react native app set up
+
+Todos today:
+set up mongodb connection.-check
+Define schema for users with mongoose.-check
+Create a user.
+Create registration and login components.
+Set up passport on server side.
+
+27-March 2nd next week.
+Define mongo collections and what those will look like.-check
+Set up mongodb connection and route handle for saving workouts and getting workouts.
+Set up user passport authentication.
+Start the React Native Car: Taxi booking app.
+
+3rdth-9th
+Set up profile layout.
+Set up searching for users and friending each other's profiles.
+
+10th-16th
+Set up rooms and name spaces for users channels and DM's, and workbook workouts (the commenting section).
+Set up inviting other users to these rooms and name spaces.
+
+17th-23rd
+Set up message receiving between users.
+Set up liking and commenting for users on your workbook
+
+24th-30th
+Set up a feed page to view friends latest workouts.
+Set up notification events for when users leave a comment or like your workout on the feed,have those comments and likes appear on the respective page
+
+31st-April 6th.
+Create a timeline graph for workouts over time.
+Add logic to feed to show progressions each week in the feed.
+
+What collections I need:
+
+
+x
