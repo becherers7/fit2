@@ -138,37 +138,51 @@ Get a react native app set up
 Todos today:
 set up mongodb connection.-check
 Define schema for users with mongoose.-check
-Create a user.
-Create registration and login components.
-Set up passport on server side.
+Create a user.-check
+Create registration and login components.-check
+Set up passport on server side.--check
 
 27-March 2nd next week.
 Define mongo collections and what those will look like.-check
-Set up mongodb connection and route handle for saving workouts and getting workouts.
-Set up user passport authentication.
-Start the React Native Car: Taxi booking app.
+Set up mongodb connection.--check
+Set up user passport authentication.--check.
+Save user to database with a hashed password.--check
+Reroute to login page when successful.
+Login with user into the application and establish a session.--check
+route handle for saving workouts and getting workouts.
+Create a profile page.--check
+Reroute to profile page when login is successful.
 
 3rdth-9th
-Set up profile layout.
-Set up searching for users and friending each other's profiles.
+Build profile walk through.
+Profile image example.
+Access user's desktop camera to upload image.
+Create a timeline graph for workouts over time.
+Add logic to feed to show progressions each week in the feed.
+
 
 10th-16th
+Start the React Native Car: Taxi booking app.
+Autocomplete search for users
+Ask user to be friends.
+If user accepts then both get added to eachother's friends collection.
 Set up rooms and name spaces for users channels and DM's, and workbook workouts (the commenting section).
 Set up inviting other users to these rooms and name spaces.
+
 
 17th-23rd
 Set up message receiving between users.
 Set up liking and commenting for users on your workbook
 
+
 24th-30th
 Set up a feed page to view friends latest workouts.
 Set up notification events for when users leave a comment or like your workout on the feed,have those comments and likes appear on the respective page
+
 
 31st-April 6th.
 Create a timeline graph for workouts over time.
 Add logic to feed to show progressions each week in the feed.
 
+
 What collections I need:
-
-
-x

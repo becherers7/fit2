@@ -49,7 +49,7 @@ class CreateWorkoutForm extends React.Component {
     this.setState({exercise: ''});
     this.setState({sets: ''});
     this.setState({reps: ''});
-    // this.props.emit('createWorkout', {workout: exercise});
+    this.props.emit('createWorkout', {workout: exercise});
   }
   handleChange= name => event => {
     console.log("event.target.name", name);
@@ -85,7 +85,7 @@ class CreateWorkoutForm extends React.Component {
             handleArrayChange={this.handleMuscleGroupChange}
             label="Types" />
         </Grid>
-        
+
         <br />
         <br />
         <br />

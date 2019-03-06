@@ -27,6 +27,7 @@ import ListItems from './common/ListItems';
 import ListHeaderAndButton from './common/ListHeaderAndButton';
 import MessageBoard from './MessageBoard';
 import WorkBook from './WorkBook';
+import Profile from './Profile';
 import CreateWorkoutForm from './CreateWorkoutForm';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -183,11 +184,11 @@ class PersistentDrawerLeft extends Component {
             <Divider />
                 <List>
                   <ListItem>
-                    <Link to="/workbook">
+                    <Link to="/display/workbook">
                       <ListItemText>Workbook</ListItemText>
                     </Link>
                     <ListItemSecondaryAction>
-                      <Link to="/">
+                      <Link to="/display/newWorkout">
                         <Fab>
                           <AddIcon size="small" color="primary" aria-label="Add" />
                         </Fab>
@@ -214,17 +215,24 @@ class PersistentDrawerLeft extends Component {
             <Switch>
 
                 <Route
-                  exact path="/"
-                  component={() => <CreateWorkoutForm />}
+                  exact path="/display/"
+                  component={() => <Profile />}
                 />
                 <Route
-                  exact path="/workbook"
+                  exact path="/display/workbook"
                   component={() =>
                     <WorkBook
                       emit={this.props.emit}
                       messages={this.props.messages}
                       workouts={this.props.workouts} />
                   }
+                  />
+                <Route
+                  exact path="/display/newWorkout"
+                  component={() =>
+                    <CreateWorkoutForm
+                      emit={this.props.emit}
+                      />}
                   />
             </Switch>
           </main>

@@ -1,38 +1,61 @@
-let express = require('express');
+let express = require('express')
+let bodyParser = require('body-parser')
+let morgan = require('morgan')
+let session = require('express-session')
+let dbConnection = require('./database')
+let MongoStore = require('connect-mongo')(session)
+let passport = require('./passport');
+let cors = require('cors');
 let app = express();
-
-let mongo = require('mongodb');
-let mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/groupout', function(err, db){
-  if(err) throw err;
-  console.log("Database groupout created");
-  db.close();
-});
+let PORT = 8000;
+// Route requires
+let user = require('./routes/User');
 
 let connections = [];
 let messages = [];
 let channels = [];
 let workouts = [];
 
+// MIDDLEWARE
+app.use(cors());
+app.use(morgan('dev'))
+app.use(
+	bodyParser.urlencoded({
+		extended: false
+	})
+)
+app.use(bodyParser.json())
 
-app.use(express.static('dist'));
+// Sessions
+app.use(
+	session({
+		secret: '', //pick a random string to make the hash that is generated secure
+		store: new MongoStore({ mongooseConnection: dbConnection }),
+		resave: false, //required
+		saveUninitialized: false //required
+	})
+)
 
-app.use(express.static('./node_modules/bootstrap/dist'));
+// Passport
+app.use(passport.initialize())
+app.use(passport.session()) // calls the deserializeUser
 
-app.get('/', (req, res)=>{
-  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-});
 
-let server = app.listen(8000);
-console.log("Polling server is running at 'http://localhost:8000'");
+// Routes
+app.use('/user', user);
+
+// Starting Server
+let server = app.listen(PORT, () => {
+	console.log(`App listening on PORT: ${PORT}`)
+})
 
 let io = require('socket.io').listen(server);
 
+io.set('origins', '*:*');
+
 //listen for a connection, where a connection event occurs when a socket gets connected
 io.sockets.on('connection', (socket) => {
-  // socket.on('join', (payload) => {
-  //   let newMember = ('joined', newMember);
-  // });
+
   socket.once('disconnect', function(){
     console.log('user disconnected');
   });
@@ -56,5 +79,9 @@ io.sockets.on('connection', (socket) => {
     workouts.push(workout);
     console.log("workouts looks like: ", workouts);
     socket.emit('updateWorkouts', workouts);
+  });
+  socket.on('create user', (user) => {
+    console.log("new user: ", user);
+    app.use("/api/users", users);
   });
 });
