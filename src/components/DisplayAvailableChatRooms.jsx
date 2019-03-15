@@ -116,15 +116,6 @@ class PersistentDrawerLeft extends Component {
       directChannels: [],
     };
   };
-
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
   handleNameChange = (event) => {
     let oldChannel = this.state.channel;
     oldChannel.name = event.target.value;
@@ -145,7 +136,7 @@ class PersistentDrawerLeft extends Component {
         <React.Fragment>
           <CssBaseline />
           <Grid container className={classes.root}>
-          <Grid item xs={12}>
+          {/*<Grid item xs={12}>
           <AppBar
             position="fixed"
             className={classNames(classes.appBar, {
@@ -166,18 +157,18 @@ class PersistentDrawerLeft extends Component {
               </Typography>
             </Toolbar>
           </AppBar>
-          </Grid>
+          </Grid>*/}
           <Drawer
             className={classes.drawer}
             variant="persistent"
             anchor="left"
-            open={open}
+            open={this.props.open}
             classes={{
               paper: classes.drawerPaper,
             }}
           >
             <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawerClose}>
+              <IconButton onClick={this.props.handleDrawerClose}>
                 {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
               </IconButton>
             </div>

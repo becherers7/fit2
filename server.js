@@ -29,7 +29,7 @@ app.use(bodyParser.json())
 // Sessions
 app.use(
 	session({
-		secret: '', //pick a random string to make the hash that is generated secure
+		secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
 		store: new MongoStore({ mongooseConnection: dbConnection }),
 		resave: false, //required
 		saveUninitialized: false //required

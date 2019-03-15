@@ -8,7 +8,8 @@ import {
 } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
-import Navbar from './Navbar';
+import NotAuthedNavbar from './common/NotAuthedNavbar';
+import AuthedNavbar from './Navbar';
 import Board from './Board';
 import DisplayAvailableChatRooms from './DisplayAvailableChatRooms';
 import axios from 'axios';
@@ -19,6 +20,7 @@ class App extends Component {
     super()
     this.state = {
       currentChatRoom: '',
+      open: false,
       chatRooms: [],
       channels: [],
       messages: [],
@@ -126,6 +128,13 @@ class App extends Component {
     this.setState({newWorkout: workout});
     this.emit('new workout', workout);
   }
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ open: false });
+  };
 
   changeCurrentChatRoomValue = (event) => {
       let currentChatRoom = event.target.value;
@@ -135,8 +144,11 @@ class App extends Component {
     return (
       <Router>
       <div className="App">
-
-        <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+        {this.state.loggedIn ? (
+          <AuthedNavbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+        ) : (
+          <NotAuthedNavbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+        )}
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
           <p>Join the party, {this.state.username}!</p>
@@ -150,11 +162,14 @@ class App extends Component {
           exact path="/display/"
           render={() =>
             <DisplayAvailableChatRooms
+              handleDrawerOpen={this.handleDrawerOpen}
+              handleDrawerClose={this.handleDrawerClose}
               currentChatRoom={this.state.currentChatRoom}
               channels={this.state.channels}
               submitCreateForm={this.submitCreateForm}
               messages={this.state.messages}
               emit={this.emit}
+              open={this.state.open}
               workouts={this.state.workouts}
               newWorkout={this.state.newWorkout}
             />}
