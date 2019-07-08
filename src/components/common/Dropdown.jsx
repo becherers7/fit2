@@ -49,11 +49,9 @@ class Dropdown extends React.Component {
             onClose={this.props.handleClose}
             onOpen={this.props.handleOpen}
           >
-          <MenuItem key="default" value="">Day of week</MenuItem>
+          <MenuItem key="default">Day of week</MenuItem>
           {this.props.options.map((option, index)=>{
             return <MenuItem key={index} value={option}>{option}</MenuItem>
-
-
           })}
 
           </Select>

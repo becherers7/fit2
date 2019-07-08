@@ -1,24 +1,16 @@
-//Connect to Mongo database
-const mongoose = require('mongoose')
-mongoose.Promise = global.Promise
+const mongoose = require('mongoose');
 
-//your local database url
-//27017 is the default mongoDB port
-let uri = 'mongodb://localhost:27017/groupOut'
-
-mongoose.connect(uri).then(
-    () => {
-        /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
-        console.log('Connected to Mongo');
-
-    },
-    err => {
-         /** handle initial connection error */
-         console.log('error connecting to Mongo: ')
-         console.log(err);
-
-        }
-  );
+module.exports.connect = (uri) => {
+  mongoose.connect(uri);
+  // plug in the promise library:
+  mongoose.Promise = global.Promise;
 
 
-module.exports = mongoose.connection
+  mongoose.connection.on('error', (err) => {
+    console.error(`Mongoose connection error: ${err}`);
+    process.exit(1);
+  });
+
+  // load models
+  require('./models/User');
+};

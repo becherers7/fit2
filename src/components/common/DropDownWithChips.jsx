@@ -73,7 +73,7 @@ class DropdownWithChips extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log("props: ", this.props);
+    
     return (
       <div className={classes.root}>
 

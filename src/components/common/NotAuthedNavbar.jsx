@@ -18,6 +18,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Grid from '@material-ui/core/Grid';
+import {Link} from 'react-router-dom';
 
 let drawerWidth = 240;
 
@@ -34,18 +36,6 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  // menuButton: {
-  //   marginLeft: -12,
-  //   marginRight: 20,
-  // },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
@@ -137,7 +127,9 @@ class NotAuthedNavbar extends React.Component {
 
     let loggedIn = this.props.loggedIn;
     return (
-      <div className={classes.root}>
+      <React.Fragment>
+      <Grid container className={classes.root}>
+        <Grid item xs={12}>
         <AppBar
           className={classNames(classes.appBar, {
             [classes.appBarShift]: open,
@@ -155,30 +147,18 @@ class NotAuthedNavbar extends React.Component {
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
               Login
             </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
-            </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <HomeIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <Typography color="inherit">
+              <Link to="/login">
+                Login 
+              </Link>
+            </Typography>
+            <div color="inherit">
+              <Link to="/signup">
+                Sign Up 
+              </Link>
+            </div>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
@@ -187,7 +167,9 @@ class NotAuthedNavbar extends React.Component {
             </div>
           </Toolbar>
         </AppBar>
-      </div>
+        </Grid>
+      </Grid>
+      </React.Fragment>
     );
   }
 }

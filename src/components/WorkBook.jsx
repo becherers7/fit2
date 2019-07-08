@@ -11,6 +11,12 @@ import CommentSection from './CommentSection';
 //there will be a state holder that contains the current index of the array.
 //Create a method that moves the index to the desired position in the array.
 
+const styles = theme => ({
+  card: {
+    marginTop: '5%',
+  }
+});
+
 class WorkBook extends React.Component {
     constructor(props){
       super(props);
@@ -20,7 +26,9 @@ class WorkBook extends React.Component {
       }
     }
     componentDidMount(){
-      this.setState({workouts: this.props.workouts});
+      if(this.props.workouts){
+        this.setState({workouts: this.props.workouts});
+      }
     }
     componentDidUpdate(prevProps, prevState, snapshot){
       if(this.props.workouts !== prevState.workouts){
@@ -50,7 +58,7 @@ class WorkBook extends React.Component {
         let currentWorkoutIndex = this.state.currentWorkoutIndex;
         return (
           <React.Fragment>
-            <Grid container>
+            <Grid container className={classes.card}>
               <Grid item xs={12}>
                 <h2 className="centerFont">WorkBook</h2>
                 <p className="centerFont">A book like view of all your workouts</p>
@@ -77,7 +85,13 @@ class WorkBook extends React.Component {
           </React.Fragment>
         )
       }else{
-        return null;
+        return (
+          <React.Fragment>
+            <Grid container>
+              <h3>You have no workouts</h3>
+            </Grid>
+          </React.Fragment>
+        );
       }
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Button from '@material-ui/core/Button';
 class CreateChatRoomForm extends React.Component {
 
   componentDidMount(){
@@ -10,7 +10,7 @@ class CreateChatRoomForm extends React.Component {
   render() {
     // console.log("status here: ", status);
     return (
-        <div>
+        <React.Fragment>
         <label>Enter Chat Room Name></label>
         <input
           type="text"
@@ -20,8 +20,8 @@ class CreateChatRoomForm extends React.Component {
           placeholder="enter your chat room name...."
           required
           />
-        <button onClick={()=>this.props.submitCreateForm()} className="btn btn-primary">Create</button>
-        </div>
+        <Button onClick={()=>this.props.submitCreateForm()} mini>Create</Button>
+        </React.Fragment>
     )
   }
 }

@@ -17,6 +17,27 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Autocomplete from './Autocomplete';
+import Auth from '../modules/Auth';
+import DisplayFriends from './common/DisplayFriends';
+
+let mockUserList = [
+    {
+        email: 'blah@gmail.com',
+        name: 'blah',
+        id: 'idblah'
+    },
+    {
+        email: 'jah@gmail.com',
+        name: 'jah',
+        id: 'idjah',
+    },
+    {
+        email: 'gah@gmail.com',
+        name: 'gah',
+        id: 'idgah',
+    },
+];
 
 let drawerWidth = 240;
 
@@ -104,11 +125,33 @@ const styles = theme => ({
   },
 });
 
-class Navbar extends React.Component {
+class AuthedNavbar extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
+    mockUserList: mockUserList,
+    friendRequests: [],
+    friends: [],
   };
+  componentDidMount() {
+    const xhr = new XMLHttpRequest();
+    
+    xhr.open('post', 'http://localhost:8000/api/getFriendRequests');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        console.log('navigation response: ', xhr.response);
+        let friendRequests = xhr.response.friendRequests;
+        this.setState({friendRequests: friendRequests});
+        console.log(this.state.friendRequests);
+      } else {
+        console.log('something went wrong');
+      }
+    });
+    xhr.send();
+  }
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -126,12 +169,43 @@ class Navbar extends React.Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
+  // Figure out a better way of managing friends state.
+  // you need to next implement the displayAvailableChatRooms component from the backups file.
+  // you then need to add the search for friends but with chips from material-ui on the create 
+  // channels and create rooms.
+  // next add sockets for creating rooms and channels based on what friend you want to chat with.
+  
+  acceptFriendRequest = (friend) => {
+    console.log("this friend: ", friend);
+    let addFriend = `email=${friend}`
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', 'http://localhost:8000/api/acceptFriendRequest');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if(xhr.status === 200) {
+        console.log('successful post: ', xhr.response);
+        //think of a better way to manage friends state.
+        this.setState({friends: xhr.response});
+        console.log(this.state.friends);
+      } else {
+        console.log('unsuccessful error');
+      };
+    });
+    xhr.send(addFriend);
+  }
 
   render() {
+    console.log('rendering navbar: ');
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    // we need to have a person icon, that when you click, displays each friend in the
+    // in the friend requests array. You need an icon, an openHandler and closeHandler
+    // you also need Menu items that has the profile, the username, and the add button.
 
     let renderLoggedInMenu = (
       <Menu
@@ -143,6 +217,7 @@ class Navbar extends React.Component {
       >
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem>
       </Menu>
     );
 
@@ -182,46 +257,44 @@ class Navbar extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: open,
-          })}
-          position="static">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.props.handleDrawerOpen}
-              className={classNames(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              Login
-            </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+            className={classNames(classes.appBar, {
+              [classes.appBarShift]: open,
+            })}
+            position="static">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.props.handleDrawerOpen}
+                className={classNames(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                Fit App
+              </Typography>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <Autocomplete
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                />
               </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              
+              <DisplayFriends 
+                friendRequests={this.state.friendRequests}
+                acceptFriendRequest={this.acceptFriendRequest} />
               <IconButton
                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                 aria-haspopup="true"
@@ -239,10 +312,10 @@ class Navbar extends React.Component {
           </Toolbar>
         </AppBar>
 
-          <React.Fragment>
-            {renderLoggedInMenu}
-            {renderMobileMenu}
-          </React.Fragment>
+        <React.Fragment>
+          {renderLoggedInMenu}
+          {renderMobileMenu}
+        </React.Fragment>
 
       </div>
     );

@@ -5,7 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import AddRoomModal from './AddRoomModal';
+import AddRoomModal from '../AddRoomModal';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Grid from '@material-ui/core/Grid';
 
@@ -19,7 +19,7 @@ export default function ListItems(props){
       {props.channels.map((item, index) => (
         <ListItem button key={item + index}>
         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-        <ListItemText primary={item.name} />
+        <ListItemText onClick={()=>props.openRoom(item)} primary={item.name} />
         </ListItem>
       ))}
       </List>
@@ -81,7 +81,7 @@ export default function ListItems(props){
       <React.Fragment>
       <List center>
       {props.comments.map((comment, index) => (
-        <ListItem button key={comment + index}>
+        <ListItem button key={index}>
         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
         <ListItemText primary={comment.user} />
         <ListItemText secondary={comment.createDate} />

@@ -9,80 +9,39 @@ import FormControl from '@material-ui/core/FormControl';
 import Dropdown from './common/Dropdown';
 import DropDownWithChips from './common/DropDownWithChips';
 import FormLabel from '@material-ui/core/FormLabel';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  card: {
+    marginTop: '5%',
+  }
+});
 
 class CreateWorkoutForm extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      exercises: [],
-      exercise: '',
-      sets: '',
-      reps: '',
-      daysOfWeek: [],
-      muscleGroups: [],
-      name: '',
-      open: false,
-    }
-    // this.exercises = React.createRef();
-    // this.workoutName = React.createRef();
-    // this.workoutDay = React.createRef();
   }
-  createWorkout = () => {
-
-    let workout = {
-      exercises: this.state.exercises,
-      muscleGroups: this.state.muscleGroups,
-      daysOfWeek: this.state.daysOfWeek,
-      comments: [],
-    };
-    this.props.emit('create workout', workout);
-  }
-  createExercise = () => {
-    let exercise = {
-      exercise: this.state.exercise,
-      sets: this.state.sets,
-      reps: this.state.reps,
-    }
-    let exercises = [...this.state.exercises];
-    exercises.push(exercise);
-    this.setState({exercises: exercises});
-    this.setState({exercise: ''});
-    this.setState({sets: ''});
-    this.setState({reps: ''});
-    this.props.emit('createWorkout', {workout: exercise});
-  }
-  handleChange= name => event => {
-    console.log("event.target.name", name);
-    console.log("event.target.value", event.target.value);
-    this.setState({ [name]: event.target.value });
-  }
-  handleSelectChange = (event) => {
-
-    this.setState({daysOfWeek: event.target.value});
-  }
-  handleMuscleGroupChange = event => {
-    this.setState({ muscleGroups: event.target.value });
-  };
-
+  
   render(){
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let muscleGroups =["Arms", "Legs", "Chest", "Back", "Cardio"];
+    const {classes} = this.props;
     return(
       <React.Fragment>
-      <FormControl>
+      <FormControl className={classes.card}>
         <Grid container>
         <Grid item xs={12}>
           <DropDownWithChips
             options={daysOfWeek}
-            array={this.state.daysOfWeek}
-            handleArrayChange={this.handleSelectChange}
+            array={this.props.daysOfWeek}
+            handleArrayChange={this.props.handleSelectChange}
             label="Days" />
         </Grid>
         <Grid item xs={12}>
           <DropDownWithChips
             options={muscleGroups}
-            array={this.state.muscleGroups}
-            handleArrayChange={this.handleMuscleGroupChange}
+            array={this.props.muscleGroups}
+            handleArrayChange={this.props.handleMuscleGroupChange}
             label="Types" />
         </Grid>
 
@@ -101,7 +60,7 @@ class CreateWorkoutForm extends React.Component {
 
 
 
-          {this.state.exercises.map(exercise=>{
+          {this.props.exercises.map(exercise=>{
             return(
               <React.Fragment>
 
@@ -123,8 +82,8 @@ class CreateWorkoutForm extends React.Component {
               <TextField
                 type="text"
                 // ref={this.exercise}
-                onChange={this.handleChange('exercise')}
-                value={this.state.exercise}
+                onChange={this.props.handleChange('exercise')}
+                value={this.props.exercise}
                 // ref={ref => {
                 //   this.TextFieldLabelRef = ref;
                 // }}
@@ -133,24 +92,24 @@ class CreateWorkoutForm extends React.Component {
           <Grid item xs={4}>
               <TextField
                 type="text"
-                ref={this.sets}
-                onChange={this.handleChange('sets')}
-                value={this.state.sets}
+                ref={this.props.sets}
+                onChange={this.props.handleChange('sets')}
+                value={this.props.sets}
                 placeholder="0 sets" />
           </Grid>
           <Grid item xs={4}>
                 <TextField
                   type="text"
-                  ref={this.reps}
-                  onChange={this.handleChange('reps')}
-                  value={this.state.reps}
+                  ref={this.props.reps}
+                  onChange={this.props.handleChange('reps')}
+                  value={this.props.reps}
                   placeholder="0 reps" />
           </Grid>
           <Grid item xs={12}>
-            <Button onClick={this.createExercise}>Add</Button>
+            <Button onClick={this.props.createExercise}>Add</Button>
           </Grid>
           <Grid item xs={12}>
-            <Button onClick={this.createWorkout}>Submit</Button>
+            <Button onClick={this.props.createWorkout}>Submit</Button>
           </Grid>
         </Grid>
         </FormControl>
@@ -159,4 +118,4 @@ class CreateWorkoutForm extends React.Component {
   }
 }
 
-export default CreateWorkoutForm;
+export default withStyles(styles, { withTheme: true })(CreateWorkoutForm);

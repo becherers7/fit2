@@ -3,6 +3,7 @@ let router = express.Router()
 let User = require('../database/models/User')
 let passport = require('../passport')
 
+
 router.post('/', (req, res) => {
     console.log('user signup');
 
@@ -22,9 +23,10 @@ router.post('/', (req, res) => {
                 password: password
             })
             newUser.save((err, savedUser) => {
-                if (err) return res.json(err)
-                res.json(savedUser)
-            })
+                if (err) return res.json(err);
+                console.log("savedUser: ", savedUser);
+                res.json(savedUser);
+            });
         }
     })
 })
@@ -44,17 +46,32 @@ router.post(
         };
         res.send(userInfo);
     }
-)
+);
+
+//so I need to attach to the req.body the user information then retrieve that.
 
 router.get('/', (req, res, next) => {
     console.log('===== user!!======')
-    console.log(req.user)
+    console.log(req.Passport);
+    isLoggedIn(req);
     if (req.user) {
-        res.json({ user: req.user })
+        res.json({ user: req.user });
     } else {
-        res.json({ user: null })
+        res.json({ user: null });
     }
-})
+});
+function isLoggedIn(req, res, next) {
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated()){
+        console.log("yep");
+        return next();
+    }else{
+        console.log("nope");
+    }
+
+    // if they aren't redirect them to the home page
+    // console.log("failed");
+}
 
 router.post('/logout', (req, res) => {
     if (req.user) {
