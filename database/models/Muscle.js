@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
- const Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
- var MuscleSchema = new Schema({
-     label: String,
-     createDate : { type: Date, default: Date.now }
-  });
+var MuscleSchema = new Schema({
+ label: String,
+ createDate : { type: Date, default: Date.now }
+});
 
-  module.exports = mongoose.model('Muscle', Muscle);
+module.exports = mongoose.model('Muscle', Muscle);
