@@ -13,15 +13,6 @@ let app = express();
 //tells app to parse HTTP body messages.
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-//YOU ARE THE MAN!
-// YOU ARE NOW SAVING A ROOM TO EACH USER INVOLVED IN A ROOM.
-// YOU NOW HAVE TO EMIT THESE NEW ROOMS TO THE USERS.
-// NOW YOU HAVE TO MAKE A GET REQUEST TO GET THE ROOMS CREATED.
-//  WHEN YOU CLICK ON A ROOM SET THAT TO THE CURRENT ROOM
-// HAVE SOCKETS EMIT THAT IT IS THE CURRENT ROOM.
-// BROAD CAST MESSAGES TO THAT ROOM.
-
 // Route requires
 let user = require('./routes/User');
 
@@ -67,24 +58,6 @@ let members = [];
 //listen for a connection, where a connection event occurs when a socket gets connected
 io.sockets.on('connection', (socket) => {
   console.log('connecting to sockets: ');
-  //subscribe to a room
-  socket.on('subscribe', function(room) {
-    console.log("joining room", room);
-    socket.join(room);
-  });
-
-  //unsubscribe to a room
-  socket.on('unsubscribe', function(room) {  
-        console.log('leaving room', room);
-        socket.leave(room); 
-  });
-
-  //emit message to users in the room.
-  socket.on('send', function(data) {
-        console.log('sending message');
-        io.sockets.in(data.room).emit('message', data);
-    });
-
   // we need to have an array for all the live users?
   // we need the users name upon login...
   //-remove socket from our connections upon disconnect.
