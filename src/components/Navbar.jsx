@@ -20,6 +20,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Autocomplete from './Autocomplete';
 import Auth from '../modules/Auth';
 import DisplayFriends from './common/DisplayFriends';
+import { acceptFriendRequest } from '../modules/handlers';
 
 let mockUserList = [
     {
@@ -176,24 +177,27 @@ class AuthedNavbar extends React.Component {
   // next add sockets for creating rooms and channels based on what friend you want to chat with.
   
   acceptFriendRequest = (friend) => {
-    console.log("this friend: ", friend);
-    let addFriend = `email=${friend}`
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', 'http://localhost:8000/api/acceptFriendRequest');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if(xhr.status === 200) {
-        console.log('successful post: ', xhr.response);
-        //think of a better way to manage friends state.
-        this.setState({friends: xhr.response});
-        console.log(this.state.friends);
-      } else {
-        console.log('unsuccessful error');
-      };
+    // console.log("this friend: ", friend);
+    // let addFriend = `email=${friend}`
+    // const xhr = new XMLHttpRequest();
+    // xhr.open('post', 'http://localhost:8000/api/acceptFriendRequest');
+    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    // xhr.responseType = 'json';
+    // xhr.addEventListener('load', () => {
+    //   if(xhr.status === 200) {
+    //     console.log('successful post: ', xhr.response);
+    //     //think of a better way to manage friends state.
+    //     this.setState({friends: xhr.response});
+    //     console.log(this.state.friends);
+    //   } else {
+    //     console.log('unsuccessful error');
+    //   };
+    // });
+    // xhr.send(addFriend);
+    acceptFriendRequest(friend).then((friends) => {
+        this.setState({friends: friends});
     });
-    xhr.send(addFriend);
   }
 
   render() {

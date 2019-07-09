@@ -81,11 +81,11 @@ io.sockets.on('connection', (socket) => {
   });
 
   //-ok so we need t add a componentDidUpdate component
-  socket.on('channel room', (channel) => {
+  socket.on('create channel', (channel) => {
     console.log("incoming channel: ", channel);
     channels.push(channel);
-    console.log("channels to emit: ", channels);
-    socket.emit('updateChannels', channels);
+    socket.emit('update channel', channel);
+    console.log("channel to emit: ", channel);
   });
   
   socket.on('create workout', (workout) => {

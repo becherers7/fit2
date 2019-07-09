@@ -3,13 +3,6 @@ import React, { Component } from 'react';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles';
 
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Link,
-//   Redirect,
-//   withRouter
-// } from 'react-router-dom'
 import {
   BrowserRouter as Router,
   Route,
@@ -31,12 +24,15 @@ import Logout from './containers/Logout';
 import NotAuthedNavbar from './components/common/NotAuthedNavbar';
 import Register from './containers/Register';
 import SideMenuDisplay from './containers/SideMenuDisplay';
+import socket from './modules/socket.js';
+import { UPDATE_CHANNEL } from './modules/socketEvents.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       authenticated: false,
+      client: socket(),
       workouts: [
         {
           label: 'Arm Day',
@@ -82,13 +78,6 @@ class App extends Component {
   }
 
   render() {
-    // added both navbars. next place relevant icons in each.
-    // in authed navbar have a home page icon that takes you to home.
-    // in authed navbar have a profile image icon that gives logout or go to profile option
-    // in not authed navbar, place the login form in the navbar, used linkedin and facebook aesthetics
-    // underneath the navbar display register component
-    // underneath register have a footer that is like linkedin's with the links it goes to.
-
     return (
           <Router>
             <Switch>      
@@ -99,7 +88,11 @@ class App extends Component {
                                       <Link to="/logout" href="/logout">Log out</Link>
                                     </div>*/}
                     
-                    <SideMenuDisplay workouts={this.state.workouts} />
+                    <SideMenuDisplay 
+                        workouts={this.state.workouts}
+                        emitToServer={this.state.client.emitToServer}
+                        listenOnServer={this.state.client.listenOnServer}
+                        unregisterHandler={this.state.client.unregisterHandler} />
                     {/*<Route
                                           exact path="/"
                                           render={() => 

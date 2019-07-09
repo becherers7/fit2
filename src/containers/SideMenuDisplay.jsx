@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SideMenu from '../components/SideMenu';
 import io from 'socket.io-client';
 import { acceptFriendRequest, getFriendRequests } from '../modules/handlers';
+import { CREATE_CHANNEL, UPDATE_CHANNEL } from '../modules/socketEvents.js';
 
 class SideMenuDisplay extends Component {
   constructor(props){
@@ -15,27 +16,38 @@ class SideMenuDisplay extends Component {
       channels: [],
       messages: [],
     };
-    this.socket = io('http://localhost:8000');
   }
   componentDidMount() {
       // sets array of friend requests in state
       getFriendRequests().then((friendRequests) => {
           this.setState({friendRequests: friendRequests});
       });
+      console.log("componet did mount");
+      // this.socketUpdate(UPDATE_CHANNEL);
+      console.log("socket update successful");
   }
+
   
+  // componentDidUpdate(prevProps, prevState, snapshot){
+  //   this.props.listenOnServer('update channel', this.props.unregisterHandler(UPDATE_CHANNEL));
+  //   //-if channels gets updated set the current chat room to the latest chat room pushed.
+  //   if(this.state.channels.length !== prevState.channels.length){
+  //     let channels = this.state.channels;
+  //     let currentChatRoom = channels[channels.length-1];
+  //     this.setState({currentChatRoom: currentChatRoom});
+  //   }
+
+  // }
+  
+  componentWillUnmount() {
+      console.log("component unmounting");
+      // this.props.unregisterHandler(UPDATE_CHANNEL);
+      // this.props.unregisterHandler(CREATE_CHANNEL);
+      console.log("unregisterHandler successful");
+  }
+
   openRoom = (room) => {
     console.log("this room name: ", room); 
-  }
-  componentDidUpdate(prevProps, prevState, snapshot){
-    // this.socket.on('updateChannels', this.updateChannels);
-    //-if channels gets updated set the current chat room to the latest chat room pushed.
-    if(this.state.channels.length !== prevState.channels.length){
-      let channels = this.state.channels;
-      let currentChatRoom = channels[channels.length-1];
-      this.setState({currentChatRoom: currentChatRoom});
-    }
-
   }
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -57,33 +69,28 @@ class SideMenuDisplay extends Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
-  acceptFriendRequest = (friend) => {
-      acceptFriendRequest(friend).then((friends) => {
-          this.setState({friends: friends});
-      });
-  }
-  emit = (eventName, payload) => {
-    if(this.socket !== undefined){
-      console.log("eventName: ", eventName);
-      console.log("payload: ", payload);
-      this.socket.emit(eventName, payload);
-    }
-  }
-  updateChannels = (channels) => {
-    this.setState({channels: channels});
-    console.log("channels: ", this.state.channels);
+
+  socketUpdate = (channel) => {
+    console.log("listening for: ", channel);
+    this.props.listenOnServer(UPDATE_CHANNEL, channel);
+    this.setState({ channels: this.state.channels.concat(channel) });
+    console.log("our new state: ", this.state.channels);
   }
 
+  // updateDirectMessages = (message) => {
+  //   this.props.listenOnServer(UPDATE_DIRECT_MESSAGES, message);
+  //   this.setState({ chatHistory: this.state.chatHistory.concat(entry) })
 
-  // Figure out a better way of managing friends state.
-  // you need to next implement the displayAvailableChatRooms component from the backups file.
-  // you then need to add the search for friends but with chips from material-ui on the create 
-  // channels and create rooms.
-  // next add sockets for creating rooms and channels based on what friend you want to chat with.
+  // }
+
+  // updateWorkouts = (eventName, workout) => {
+  //   this.props.listenOnServer(UPDATE_WORKOUTS, workout);
+  //   this.setState({ workouts: this.state.workouts.concat(workout) })
+  // }
   
 
   render() {
-    // const {getFriendRequests} = require('../modules/handlers');
+
     return (
       <SideMenu 
         openRoom={this.openRoom}
@@ -101,7 +108,8 @@ class SideMenuDisplay extends Component {
         anchorEl={this.state.anchorEl}
         channels={this.state.channels}
         messages={this.state.messages}
-        emit={this.emit} />
+        emit={this.props.emitToServer}
+        listen={this.props.listenOnServer} />
     );
   }
 }

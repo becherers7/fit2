@@ -57,7 +57,7 @@ class AddRoom extends Component {
     submitCreateForm = (channel) => {
       console.log("submit channel: ", channel);
       this.setState({currentChatRooms: channel});
-      this.props.emit('channel room', channel);
+      this.props.emit('create channel', channel);
       saveChannel(channel).then((result) => {
           console.log("result: ", result);
       });
