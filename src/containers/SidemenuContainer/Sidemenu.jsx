@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Link,
+  Switch
+} from 'react-router-dom';
+
+{/*material-ui*/}
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import theme from '../../styles/sideMenuTheme';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,156 +20,38 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItems from './common/ListItems';
-import ListHeaderAndButton from './common/ListHeaderAndButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import AuthedNavbar from './Navbar';
-import Autocomplete from './Autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import Badge from '@material-ui/core/Badge';
-import DisplayFriends from './common/DisplayFriends';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import Auth from '../modules/Auth';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import WorkBook from './WorkBook';
-import DashboardPage from '../containers/DashboardPage';
-import CreateWorkout from '../containers/CreateWorkout';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Link,
-  Switch
-} from 'react-router-dom';
-const drawerWidth = 240;
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  appBarMargin: {
-  	marginBottom: '5%',
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 20,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    width: theme.spacing.unit * 9,
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%',
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-});
+import Icons from '../../common/MaterialUI/Icons';
 
-class SideMenu extends Component {
+{/*components for list*/}
+import ListHeaderAndButton from './List/ListHeaderAndButton';
+
+{/*same directory*/}
+import WorkBook from '../WorkoutContainer/WorkBook';
+import CreateWorkout from '../WorkoutContainer/CreateWorkout';
+
+
+import Auth from '../../modules/Auth';
+
+import DisplayFriends from '../../common/DisplayFriends';
+import Autocomplete from '../../common/Autocomplete/Autocomplete';
+
+import ListItems from '../../common/List/ListItems';
+import DashboardPage from '../../components/Dashboard';
+import AuthedNavbar from '../../components/Navbar/AuthedNavbar';
+
+
+class Sidemenu extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -195,7 +87,7 @@ class SideMenu extends Component {
 		    <MenuItem onClick={this.props.handleMobileMenuClose}>
 		      <IconButton color="inherit">
 		        <Badge badgeContent={4} color="secondary">
-		          <MailIcon />
+		          <Icons icon="mail" />
 		        </Badge>
 		      </IconButton>
 		      <p>Messages</p>
@@ -203,7 +95,7 @@ class SideMenu extends Component {
 		    <MenuItem onClick={this.props.handleMobileMenuClose}>
 		      <IconButton color="inherit">
 		        <Badge badgeContent={11} color="secondary">
-		          <NotificationsIcon />
+		          <Icons icon="notifications" />
 		        </Badge>
 		      </IconButton>
 		      <p>Notifications</p>
@@ -233,7 +125,7 @@ class SideMenu extends Component {
 					onClick={this.props.handleDrawerOpen}
 					className={classNames(classes.menuButton, open && classes.hide)}
 					>
-						<MenuIcon />
+						<Icons icon="menu" />
 					</IconButton>
 					<Typography variant="h6" color="inherit" noWrap>
 						Fit App
@@ -248,7 +140,7 @@ class SideMenu extends Component {
 						<div className={classes.sectionDesktop}>
 							<IconButton color="inherit">
 								<Badge badgeContent={4} color="secondary">
-									<MailIcon />
+									<Icons icon="mail" />
 								</Badge>
 							</IconButton>
 
@@ -266,7 +158,7 @@ class SideMenu extends Component {
 						</div>
 						<div className={classes.sectionMobile}>
 						<IconButton aria-haspopup="true" onClick={()=>this.handleMobileMenuOpen()} color="inherit">
-							<MoreIcon />
+							<Icons icon="more" />
 						</IconButton>
 					</div>
 				</Toolbar>
@@ -286,7 +178,7 @@ class SideMenu extends Component {
 				>
 				<div className={classes.drawerHeader}>
 					<IconButton onClick={this.props.handleDrawerClose}>
-					{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+					{theme.direction === 'ltr' ? <Icons icon="left" /> : <Icons icon="right" />}
 					</IconButton>
 				</div>
 				<Divider />
@@ -298,7 +190,7 @@ class SideMenu extends Component {
 						<ListItemSecondaryAction>
 						<Link href="/newWorkout" to="/newWorkout">
 						<Fab size="small" color="secondary" aria-label="Add">
-							<AddIcon />
+							<Icons icon="add" />
 						</Fab>
 						</Link>
 						</ListItemSecondaryAction>
@@ -306,7 +198,8 @@ class SideMenu extends Component {
 				</List>
 				<Divider />
 				{/*Channels*/}
-				<ListHeaderAndButton 
+				<ListHeaderAndButton
+					unregisterHandler={this.props.unregisterHandler} 
 					submitCreateForm={this.props.submitCreateForm} 
 					header="Channels"
 					emit={this.props.emit} />
@@ -314,11 +207,6 @@ class SideMenu extends Component {
 					channels={this.props.channels}
 					openRoom={this.props.openRoom} />
 				<Divider />
-				{/*Direct messages*/}
-				<ListHeaderAndButton 
-					header="Direct Messages"
-					emit={this.props.emit} />
-				<ListItems directMessages={['Steve, Ben', 'Steve, Rose', 'Steve, Brady, Ben']} />
 				</Drawer>
 				<main
 				className={classNames(classes.content, {
@@ -328,25 +216,28 @@ class SideMenu extends Component {
 					<Switch>
 						<Route
 						exact path="/"
-						component={() => <DashboardPage />}
+							component={() => 
+								<DashboardPage />
+							}
 						/>
 
 						<Route
-						exact path="/workbook"
-						component={() =>
-						<WorkBook
-						emit={this.props.emit}
-						messages={this.props.messages}
-						workouts={this.props.workouts} />
-						}
+							exact path="/workbook"
+							component={() =>
+								<WorkBook
+								emit={this.props.emit}
+								messages={this.props.messages}
+								workouts={this.props.workouts} />
+							}
 						/>
 
 						<Route
-						exact path="/newWorkout"
-						component={() =>
-						<CreateWorkout
-						emit={this.props.emit}
-						/>}
+							exact path="/newWorkout"
+							component={() =>
+								<CreateWorkout
+								emit={this.props.emit}
+								/>
+							}
 						/>
 					</Switch>
 
@@ -356,4 +247,4 @@ class SideMenu extends Component {
 	}
 }
 
-export default withStyles(styles, { withTheme: true })(SideMenu);
+export default withStyles(theme, { withTheme: true })(Sidemenu);

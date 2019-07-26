@@ -21,8 +21,6 @@ let acceptFriendRequest = function(friend) {
 		});
 }
 
-// dashboard
-// let dashboard
 
 // find friends
 let findFriends = function(friend) {

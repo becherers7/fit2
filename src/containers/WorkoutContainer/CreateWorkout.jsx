@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import CreateWorkoutForm from '../components/CreateWorkoutForm';
-import Sockets from '../modules/Sockets.js';
+import CreateWorkoutForm from './CreateWorkoutForm';
+import Sockets from '../../modules/Sockets.js';
 
 class CreateWorkout extends React.Component {
   constructor(props){

@@ -8,7 +8,8 @@ import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
-import { findFriends } from '../modules/handlers';
+
+import { findFriends } from '../../modules/handlers';
 
 const styles = theme => ({
   root: {

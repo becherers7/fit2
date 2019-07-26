@@ -3,35 +3,43 @@ import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
-	card: {
-		marginTop: '5%',
-	}
-});
+import { createMuiTheme } from "@material-ui/core/styles";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
 class Dashboard extends Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			muiTheme: '',
+		}
 	};
+	componentDidMount() {
+		let appTheme = require("../Styles/MaterialUI-Theme.js");
+		let tempTheme = createMuiTheme(appTheme);
+		this.setState({
+			  "muiTheme": tempTheme
+		});
+	}
 	render(){
-		const { classes } = this.props;
+		// const { classes } = this.props;
+		let muiTheme = this.state.muiTheme;
 		return (
-			<Card className={classes.card}>
-			    <CardContent>
-			  	{
-			  		this.props.secretData && 
-				  	<Typography style={{ fontSize: '16px', color: 'green' }}>
-					  	Welcome <strong>{this.props.user.name}</strong>!
-					  	<br />
-					  	{this.props.secretData}
-				  	</Typography>
-				}
-			  	</CardContent>
-			</Card>
+			<MuiThemeProvider theme={muiTheme}>
+				<Card>
+				    <CardContent>
+					  	{
+					  		this.props.secretData && 
+						  	<Typography style={{ fontSize: '16px', color: 'green' }}>
+							  	Welcome <strong>{this.props.user.name}</strong>!
+							  	<br />
+							  	{this.props.secretData}
+						  	</Typography>
+						}
+				  	</CardContent>
+				</Card>
+			</MuiThemeProvider>
 		);
 	}
 }
 
-export default withStyles(styles, { withTheme: true })(Dashboard);
+export default Dashboard;

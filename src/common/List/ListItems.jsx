@@ -3,11 +3,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import AddRoomModal from '../AddRoomModal';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import MailIcon from '@material-ui/icons/Mail';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Grid from '@material-ui/core/Grid';
+import Icons from '../MaterialUI/Icons';
 
 export default function ListItems(props){
   let listItems;
@@ -18,7 +18,7 @@ export default function ListItems(props){
       <List>
       {props.channels.map((item, index) => (
         <ListItem button key={item + index}>
-        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+        <ListItemIcon>{index % 2 === 0 ? <Icons icon="inbox" /> : <Icons icon='mail' />}</ListItemIcon>
         <ListItemText onClick={()=>props.openRoom(item)} primary={item.name} />
         </ListItem>
       ))}

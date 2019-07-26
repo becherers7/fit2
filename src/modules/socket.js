@@ -13,13 +13,9 @@ import {
 
 export default function() {
 	const socket = io.connect('http://localhost:8000');
-	console.log("socket test 0: ", socket);
 	function emitToServer (eventName, payload) {
-		console.log("socket test 1: ", socket);
 		console.log("emit to server function");
 	    if(socket !== undefined){
-			console.log("eventName: ", eventName);
-			console.log("payload: ", payload);
 			// check that it's a valid event name option.
 			switch (eventName) {
 				

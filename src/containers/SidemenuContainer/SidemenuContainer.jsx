@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import SideMenu from '../components/SideMenu';
+import Sidemenu from './Sidemenu';
 import io from 'socket.io-client';
-import { acceptFriendRequest, getFriendRequests } from '../modules/handlers';
-import { CREATE_CHANNEL, UPDATE_CHANNEL } from '../modules/socketEvents.js';
+import { acceptFriendRequest, getFriendRequests } from '../../modules/handlers';
+import { CREATE_CHANNEL, UPDATE_CHANNEL } from '../../modules/socketEvents';
 
-class SideMenuDisplay extends Component {
+class SidemenuContainer extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -22,7 +22,7 @@ class SideMenuDisplay extends Component {
       getFriendRequests().then((friendRequests) => {
           this.setState({friendRequests: friendRequests});
       });
-      console.log("componet did mount");
+      console.log("component did mount");
       // this.socketUpdate(UPDATE_CHANNEL);
       console.log("socket update successful");
   }
@@ -38,13 +38,6 @@ class SideMenuDisplay extends Component {
   //   }
 
   // }
-  
-  componentWillUnmount() {
-      console.log("component unmounting");
-      // this.props.unregisterHandler(UPDATE_CHANNEL);
-      // this.props.unregisterHandler(CREATE_CHANNEL);
-      console.log("unregisterHandler successful");
-  }
 
   openRoom = (room) => {
     console.log("this room name: ", room); 
@@ -70,7 +63,7 @@ class SideMenuDisplay extends Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
-  socketUpdate = (channel) => {
+  updateChannels = (channel) => {
     console.log("listening for: ", channel);
     this.props.listenOnServer(UPDATE_CHANNEL, channel);
     this.setState({ channels: this.state.channels.concat(channel) });
@@ -92,7 +85,7 @@ class SideMenuDisplay extends Component {
   render() {
 
     return (
-      <SideMenu 
+      <Sidemenu 
         openRoom={this.openRoom}
         friends={this.state.friends}
         friendRequests={this.state.friendRequests}
@@ -109,9 +102,9 @@ class SideMenuDisplay extends Component {
         channels={this.state.channels}
         messages={this.state.messages}
         emit={this.props.emitToServer}
-        listen={this.props.listenOnServer} />
+        unregisterHandler={this.props.unregisterHandler} />
     );
   }
 }
 
-export default SideMenuDisplay;
+export default SidemenuContainer;

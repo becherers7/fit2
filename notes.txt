@@ -1,0 +1,4 @@
+Refactoring Sidemenu.jsx
+You can refactor the renderLoggedInMenu inside of Sidemenu and AuthedNavbar.
+
+You're actually not using AuthedNavbar right now....

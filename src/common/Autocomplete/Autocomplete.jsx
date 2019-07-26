@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import Downshift from 'downshift';
+
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
-import { findFriends } from '../modules/handlers';
+
+import { findFriends } from '../../modules/handlers';
 
 const styles = theme => ({
   root: {},

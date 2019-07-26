@@ -11,15 +11,7 @@ router.get('/dashboard', (req, res) => {
 	});
 });
 
-// first create a post request. get request must be a mongodb search find.
-// must find and display all users in an array.
-// users must filter by 8 to 10 emails.
-// YOU'RE FINDING THE USERS!!! 
-// next step is to populate so you get rid of the password.
-// then send to front end to populate suggestions array.
 router.post('/findFriends', (req, res) => {
-	//get input, create find where anything that contains req.body
-	//res.send results.
 	if(typeof(req.body === 'object') && typeof(req.body === 'string')){
 		// User.find()
 		let searchQuery = req.body;

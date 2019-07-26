@@ -1,15 +1,17 @@
 import React from 'react';
+
+//material-ui
 import Grid from '@material-ui/core/Grid';
-import ListItems from './common/ListItems';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
-import CommentSection from './CommentSection';
-//this page will contain an array of workouts.
-//You will be able to view a workout starting with index 0 in the array of workouts.
-//there will be a state holder that contains the current index of the array.
-//Create a method that moves the index to the desired position in the array.
+
+//same directory
+import ListItems from '../../common/List/ListItems';
+
+//common components
+import CommentSection from '../../common/CommentSection';
 
 const styles = theme => ({
   card: {

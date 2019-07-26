@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,8 +11,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/core/styles';
-import SearchFieldWithChips from './common/SearchFieldWithChips';
-import AutocompleteMulti from './AutocompleteMulti';
+
+import AutocompleteMulti from '../Autocomplete/AutocompleteMulti';
 
 const styles = theme => ({
   root: {
@@ -30,7 +31,12 @@ class AddRoomModal extends React.Component {
     super(props);
     
   }
-  
+  componentWillUnmount() {
+      console.log("component unmounting");
+      this.props.unregisterHandler(UPDATE_CHANNEL);
+      // this.props.unregisterHandler(CREATE_CHANNEL);
+      console.log("unregisterHandler successful");
+  }
   render() {
     const { classes, theme } = this.props;
     return (

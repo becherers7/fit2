@@ -4,7 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Auth from '../modules/Auth';
 import Typography from '@material-ui/core/Typography';
 
-class HomePage extends Component {
+class Home extends Component {
 
   componentDidMount() {
     // update authenticated state on logout
@@ -30,5 +30,5 @@ class HomePage extends Component {
   }
 };
 
-export default HomePage;
+export default Home;
 

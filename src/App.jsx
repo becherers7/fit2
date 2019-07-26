@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-// import injectTapEventPlugin from 'react-tap-event-plugin';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import createMuiTheme from '@material-ui/core/styles';
-
 import {
   BrowserRouter as Router,
   Route,
@@ -12,20 +8,29 @@ import {
   withRouter,
 } from 'react-router-dom';
 
+{/*material-ui packages*/}
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import createMuiTheme from '@material-ui/core/styles';
+
+
 // import Home from './components/Home.jsx';
+{/*modules*/}
 import Auth from './modules/Auth';
-import AuthedNavbar from './components/Navbar';
-import DashboardPage from './containers/DashboardPage';
-import FriendProfilePage from './containers/FriendProfilePage';
-import HomePage from './containers/HomePage';
-import Login from './containers/Login';
-import LoginForm from './components/LoginForm';
-import Logout from './containers/Logout';
-import NotAuthedNavbar from './components/common/NotAuthedNavbar';
-import Register from './containers/Register';
-import SideMenuDisplay from './containers/SideMenuDisplay';
 import socket from './modules/socket.js';
 import { UPDATE_CHANNEL } from './modules/socketEvents.js';
+
+{/*components*/}
+import Dashboard from './components/Dashboard';
+import FriendProfile from './components/FriendProfile';
+import AuthedNavbar from './components/Navbar/AuthedNavbar';
+import NotAuthedNavbar from './components/Navbar/NotAuthedNavbar';
+import Home from './components/Home';
+
+{/*containers*/}
+import Logout from './containers/AuthContainer/Logout';
+import Login from './containers/AuthContainer/Login/Login';
+import Register from './containers/AuthContainer/Register/Register';
+import SidemenuContainer from './containers/SidemenuContainer/SidemenuContainer';
 
 class App extends Component {
   constructor(props) {
@@ -83,49 +88,38 @@ class App extends Component {
             <Switch>      
               {Auth.isUserAuthenticated() ? (
                 <React.Fragment>
-                  {/*<div>
-                                      <Link to="/dashboard" href="/dashboard">Dashboard</Link>
-                                      <Link to="/logout" href="/logout">Log out</Link>
-                                    </div>*/}
                     
-                    <SideMenuDisplay 
+                    <SidemenuContainer 
                         workouts={this.state.workouts}
                         emitToServer={this.state.client.emitToServer}
                         listenOnServer={this.state.client.listenOnServer}
-                        unregisterHandler={this.state.client.unregisterHandler} />
-                    {/*<Route
-                                          exact path="/"
-                                          render={() => 
-                                            <HomePage toggleAuthenticateStatus={() => this.toggleAuthenticateStatus} />} 
-                                        />
-                                        <Route
-                                          exact path="/dashboard"
-                                          render={() =>
-                                            <DashboardPage />}
-                                        />*/}
+                        unregisterHandler={this.state.client.unregisterHandler} 
+                    />
+ 
                     <Route
                       exact path="/friend"
                       render={() => 
-                        <FriendProfilePage />}
+                        <FriendProfile />}
                     />
+
                     <Route
                       exact path="/logout"
                       render={() =>
                         <Logout />}
-                    /> 
+                    />
+
                 </React.Fragment>
                 ) : (
                 <React.Fragment>
-                  {/*(<div className="top-bar-right">
-                                      <Link to="/login" href="/login">Log in</Link>
-                                      <Link to="/signup" href="/signup">Sign up</Link>
-                                    </div>*/}
+
                     <NotAuthedNavbar loggedIn={this.state.authenticated} />
+
                     <Route
                         exact path="/"
                         render={() => 
-                          <HomePage toggleAuthenticateStatus={() => this.toggleAuthenticateStatus} />} 
+                          <Home toggleAuthenticateStatus={() => this.toggleAuthenticateStatus} />} 
                       />
+
                     <Route
                       exact path="/signup"
                       render={() => 
@@ -134,6 +128,7 @@ class App extends Component {
                           name={this.state.name}
                           password={this.state.password} />} 
                     />
+
                     <Route
                       exact path="/login"
                       render={() => 

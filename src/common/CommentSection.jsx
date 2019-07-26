@@ -4,7 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Input from '@material-ui/core/Input'
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import ListItems from './common/ListItems';
+
+import ListItems from './List/ListItems';
 //check to see if material-ui has a footer component that you can use for your comment section.
 const styles = theme => ({
   root: {

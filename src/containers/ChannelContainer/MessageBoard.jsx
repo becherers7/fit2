@@ -22,9 +22,7 @@ class MessageBoard extends React.Component {
     super(props);
     this.message = React.createRef();
   }
-  // componentDidMount(){
-  //   console.log("message board: ", this.props);
-  // }
+  
   createMessage = () => {
     let message = this.message.current.value;
     // console.log(message);

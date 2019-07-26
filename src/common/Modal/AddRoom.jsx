@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import AddRoomModal from '../components/AddRoomModal';
-import Sockets from '../modules/Sockets';
-import { saveChannel } from '../modules/handlers';
+
+import AddRoomModal from './AddRoomModal';
+import Sockets from '../../modules/Sockets';
+import { saveChannel } from '../../modules/handlers';
 
 class AddRoom extends Component {
 
@@ -56,10 +57,16 @@ class AddRoom extends Component {
     }
     submitCreateForm = (channel) => {
       console.log("submit channel: ", channel);
-      this.setState({currentChatRooms: channel});
+      this.setState({currentChatRoom: channel});
       this.props.emit('create channel', channel);
       saveChannel(channel).then((result) => {
           console.log("result: ", result);
+          let resetChannel = {
+            name: '',
+            purpose: '',
+            members: []
+          };
+          this.setState({channel})
       });
     
     }

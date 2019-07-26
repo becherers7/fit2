@@ -1,63 +1,82 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import RegisterForm from '../components/RegisterForm.jsx';
 import {
   Redirect,
   Link,
   withRouter,
 } from 'react-router-dom';
 
-// next step here steve, set browser history object for rerouting.
-class Register extends React.Component {
-  // set props in constructor
+import PropTypes from 'prop-types';
+import Auth from '../../../modules/Auth';
+import LoginForm from './LoginForm.jsx';
+
+
+class Login extends React.Component {
+
   constructor(props, context) {
     super(props, context);
     console.log("context: ", context);
+    const storedMessage = localStorage.getItem('successMessage');
+    let successMessage = '';
+
+    if (storedMessage) {
+      successMessage = storedMessage;
+      localStorage.removeItem('successMessage');
+    }
 
     // set the initial component state
     this.state = {
       errors: {},
+      successMessage,
       user: {
         email: '',
-        name: '',
         password: ''
       }
     };
+
+    // this.processForm = this.processForm.bind(this);
+    // this.changeUser = this.changeUser.bind(this);
   }
 
-  // process the form.
+  /**
+   * Process the form.
+   *
+   * @param {object} event - the JavaScript event object
+   */
   processForm = (event) => {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
-    // create a string for an HTTP body message, escape characters
-    const name = encodeURIComponent(this.state.user.name);
+    // create a string for an HTTP body message
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `name=${name}&email=${email}&password=${password}`;
+    const formData = `email=${email}&password=${password}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', 'http://localhost:8000/auth/signup');
+    xhr.open('post', 'http://localhost:8000/auth/login');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
-        // handle success
+        // success
 
         // change the component-container state
         this.setState({
           errors: {}
         });
 
-        // set a message
-        localStorage.setItem('successMessage', xhr.response.message);
+        // save the token
+        Auth.authenticateUser(xhr.response.token);
 
-        // redirect user after sign up to login page
-        this.props.history.push('/login');
+        // update authenticated state
+        this.props.toggleAuthenticateStatus();
+        // redirect signed in user to dashboard
+        // this.props.history.push('/dashboard');
+        window.location = '/';
       } else {
-        // handle failure
+        // failure
 
+        // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
 
@@ -69,7 +88,11 @@ class Register extends React.Component {
     xhr.send(formData);
   }
 
-  // change user object
+  /**
+   * Change the user object.
+   *
+   * @param {object} event - the JavaScript event object
+   */
   changeUser = (event) => {
     const field = event.target.name;
     const user = this.state.user;
@@ -80,13 +103,17 @@ class Register extends React.Component {
     });
   }
 
-  // Render the register form
+  /**
+   * Render the component.
+   */
   render() {
+    console.log("rendering login form");
     return (
-      <RegisterForm
+      <LoginForm
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
+        successMessage={this.state.successMessage}
         user={this.state.user}
       />
     );
@@ -94,4 +121,4 @@ class Register extends React.Component {
 
 }
 
-export default withRouter(Register);
+export default withRouter(Login);

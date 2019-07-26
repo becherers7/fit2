@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+{/*material-ui*/}
 import classNames from 'classnames';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,13 +16,17 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Autocomplete from './Autocomplete';
-import Auth from '../modules/Auth';
-import DisplayFriends from './common/DisplayFriends';
-import { acceptFriendRequest } from '../modules/handlers';
+
+{/*modules*/}
+import { acceptFriendRequest } from '../../modules/handlers';
+import Auth from '../../modules/Auth';
+
+{/*components*/}
+import Autocomplete from '../../common/Autocomplete/Autocomplete';
+import DisplayFriends from '../../common/DisplayFriends';
+import Icons from '../../common/MaterialUI/Icons';
 
 let mockUserList = [
     {
@@ -236,7 +242,7 @@ class AuthedNavbar extends React.Component {
         <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
-              <MailIcon />
+              <Icons icon='mail' />
             </Badge>
           </IconButton>
           <p>Messages</p>
@@ -250,9 +256,7 @@ class AuthedNavbar extends React.Component {
           <p>Notifications</p>
         </MenuItem>
         <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
+          <Icons icon='account' />
           <p>Profile</p>
         </MenuItem>
       </Menu>
@@ -292,7 +296,7 @@ class AuthedNavbar extends React.Component {
               <div className={classes.sectionDesktop}>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
+                  <Icons icon='mail' />
                 </Badge>
               </IconButton>
               

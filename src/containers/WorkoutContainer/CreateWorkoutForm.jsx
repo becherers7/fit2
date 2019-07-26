@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import Grid from '@material-ui/core/Grid';
-import ListItems from './common/ListItems';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';//use for selecting a value.
 import FormControl from '@material-ui/core/FormControl';
-import Dropdown from './common/Dropdown';
-import DropDownWithChips from './common/DropDownWithChips';
 import FormLabel from '@material-ui/core/FormLabel';
 import { withStyles } from '@material-ui/core/styles';
+
+import DropDownWithChips from '../../common/Dropdown/DropDownWithChips';
+import ListItems from '../../common/List/ListItems';
 
 const styles = theme => ({
   card: {
