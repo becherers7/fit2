@@ -35,7 +35,7 @@
     "dotenv": "^6.2.0",
     "downshift": "^3.2.7",
     "express-session": "^1.15.6",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.15",
     "morgan": "^1.9.1",
